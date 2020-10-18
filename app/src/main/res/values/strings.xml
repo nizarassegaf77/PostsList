@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Posts</string>
+    <string name="titleSearch">Search by Title</string>
+</resources>
