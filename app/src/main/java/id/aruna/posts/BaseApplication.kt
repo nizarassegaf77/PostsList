@@ -3,6 +3,7 @@ package id.aruna.posts
 import android.app.Application
 import id.aruna.posts.dagger.Component
 import id.aruna.posts.dagger.DaggerComponent
+import id.aruna.posts.dagger.DatabaseModule
 import id.aruna.posts.dagger.RepositoryModule
 import id.aruna.posts.database.AppDatabase
 import id.aruna.posts.datastore.set.PostsRemoteDataStore
@@ -22,23 +23,9 @@ class BaseApplication : Application() {
         super.onCreate()
         instance = this
 
-        val webService = RetrofitApp.WEB_SERVICE
-        val appDatabase = AppDatabase.getInstance(this)
-
         component = DaggerComponent
             .builder()
-            .repositoryModule(
-                RepositoryModule(
-                    localDataStore = PostsLocalDataStore(appDatabase.postsDao()),
-                    remoteDataStore = PostsRemoteDataStore(webService)
-                )
-            ).build()
+            .databaseModule(DatabaseModule(this)).build()
 
-        /* PostsRepository.instance.apply {
-             init(
-                 PostsLocalDataStore(appDatabase.postsDao()),
-                 PostsRemoteDataStore(webService)
-             )
-         }*/
     }
 }

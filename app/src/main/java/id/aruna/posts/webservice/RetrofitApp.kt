@@ -11,5 +11,5 @@ object RetrofitApp {
         .addConverterFactory(GsonConverterFactory.create())
         .build()
 
-    val WEB_SERVICE: WebService = client.create(WebService::class.java)
+    val webService: WebService = client.create(WebService::class.java)
 }

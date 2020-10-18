@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import id.aruna.posts.BaseApplication
 import id.aruna.posts.R
+import id.aruna.posts.dagger.ViewModelFactory
 import id.aruna.posts.mvvm.model.PostsModel
 import id.aruna.posts.repository.PostsRepository
 import kotlinx.android.synthetic.main.fragment_posts.*
@@ -25,8 +26,10 @@ class SetListFragment : Fragment() {
     private lateinit var vm: SetListViewModel
     private lateinit var adapter: SetListAdapter
 
+    /*@Inject
+    lateinit var postsRepository: PostsRepository*/
     @Inject
-    lateinit var postsRepository: PostsRepository
+    lateinit var viewModelFactory: ViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,8 +44,10 @@ class SetListFragment : Fragment() {
         adapter = SetListAdapter()
         rvSet.adapter = adapter
 
-        val factory = SetListFactory(postsRepository)
-        vm = ViewModelProviders.of(this, factory).get(SetListViewModel::class.java).apply {
+        //val factory = SetListFactory(postsRepository)
+        vm = ViewModelProviders.of(this, viewModelFactory).get(SetListViewModel::class.java).apply {
+
+        //vm = ViewModelProviders.of(this, factory).get(SetListViewModel::class.java).apply {
             viewState.observe(this@SetListFragment, Observer(this@SetListFragment::handleState))
             srlSet.setOnRefreshListener {
                 searchView.text.clear()
@@ -72,8 +77,8 @@ class SetListFragment : Fragment() {
 
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                     if (count == 0) {
-                        //getSets()
-                        adapter.notifyDataSetChanged()
+                        getSets()
+                        //adapter.notifyDataSetChanged()
                     } else if (count > 2) {
                         getSetsByTitle(s.toString())
                         //adapter.notifyDataSetChanged()

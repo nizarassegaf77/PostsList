@@ -14,7 +14,7 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.MockitoAnnotations
 
-class MainViewModelTest {
+class SetListViewModelTest {
     @Rule
     @JvmField
     val rule = InstantTaskExecutorRule()
