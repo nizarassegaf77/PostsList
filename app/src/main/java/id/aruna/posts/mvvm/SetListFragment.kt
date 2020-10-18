@@ -13,15 +13,20 @@ import android.widget.EditText
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import id.aruna.posts.BaseApplication
 import id.aruna.posts.R
 import id.aruna.posts.mvvm.model.PostsModel
 import id.aruna.posts.repository.PostsRepository
 import kotlinx.android.synthetic.main.fragment_posts.*
+import javax.inject.Inject
 
 
 class SetListFragment : Fragment() {
     private lateinit var vm: SetListViewModel
     private lateinit var adapter: SetListAdapter
+
+    @Inject
+    lateinit var postsRepository: PostsRepository
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +36,12 @@ class SetListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        //BaseApplication.  instance.component.inject(this)
+        BaseApplication.instance.component.inject(this)
 
         adapter = SetListAdapter()
         rvSet.adapter = adapter
 
-        val factory = SetListFactory(PostsRepository.instance)
+        val factory = SetListFactory(postsRepository)
         vm = ViewModelProviders.of(this, factory).get(SetListViewModel::class.java).apply {
             viewState.observe(this@SetListFragment, Observer(this@SetListFragment::handleState))
             srlSet.setOnRefreshListener {

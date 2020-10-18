@@ -11,7 +11,7 @@ import javax.inject.Singleton
  */
 
 @Singleton
-@Component(modules = [DatabaseModule::class])
+@Component(modules = [RepositoryModule::class])
 interface Component {
     fun inject(setListFragment: SetListFragment)
 }
